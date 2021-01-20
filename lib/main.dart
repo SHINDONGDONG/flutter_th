@@ -32,68 +32,84 @@ class _HomeAppState extends State<HomeApp> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          title: Text(
-            'Credit Card',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              fontFamily: "Roboto"
-            ),
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ), onPressed: () {  },
-          ),
-          actions: [
-            IconButton(icon: Icon(Icons.shopping_cart_outlined), onPressed: () {  },),
-          ],
-        ),
-        body: Column(
+        // resizeToAvoidBottomInset: true,       키보드가 올라오면 겹쳐보이는부분이 올라온다
+        body: Stack(
           children: [
-            RaisedButton(
-              child: Text('인증하기'),
-              onPressed: () {
-                setState(() {           //데이터에 연관이 있는 위젯은 다시그려라 
-                  this.result == true ? this.result = false : this.result = true;
-                });
-              print('클릭됨');
-              print('result : ${result}');
-            },),
-            AbsorbPointer(            //버튼을 활성화 비활성화 시켜주는 위젯
-              absorbing: result,            //false 활성
-              child: RaisedButton(
-                child: Text('전송하기'),
-                onPressed: () { print('클릭됨'); }
+            Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(200),bottomRight: Radius.circular(200)),
+                  child: Container(
+                    alignment: Alignment(0,-0.5),
+                    color: Colors.blue,
+                    height: 400,
+                    child: Text('Cos',
+                      style: TextStyle(color: Colors.white,
+                          fontSize: 50),),
+                  ),
+                ),
+                Expanded(child: SizedBox())
+              ],
+            ),
+            Positioned(                                    //첫번째 도화지의 바텀에 맞춰서 포지션을 잡는다.(즉 위쪽의 컬럼)
+              left: 0,
+              bottom: 0,
+              right: 0,
+              height: 150,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    buildTextFormField('Username'),
+                    buildTextFormField('Password'),
+                  ],
+                ),
               ),
             ),
           ],
         ),
-
-
       ),
     );
   }
-}
 
+  TextFormField buildTextFormField(String hintText1) {
+    return TextFormField(
+                  decoration: InputDecoration(
+                    hintText: hintText1,
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,color: Colors.black
+                        )
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 1,color: Colors.black
+                        )
+                    ),
+                    fillColor: Colors.grey[300],
+                    filled: true
 
-class MyCliper extends CustomClipper<Path>{
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.moveTo(size.width*0.5, 0);
-    path.lineTo(0, size.height);
-    path.lineTo(size.width, size.height);
-    return path;
+                  ),
+                );
   }
 
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return true;
+  ListView buildListView() {
+    return ListView(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(200),bottomRight: Radius.circular(200)),
+            child: Container(
+              alignment: Alignment(0,-0.5),
+              color: Colors.blue,
+              height: 500,
+              child: Text('Cos',
+              style: TextStyle(color: Colors.white,
+              fontSize: 50),),
+            ),
+          ),
+          TextFormField()
+        ],
+      );
   }
-  
 }
+
