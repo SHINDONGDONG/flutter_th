@@ -8,22 +8,32 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Home'),
       ),
-      body: Container(
-        color: Colors.blue,
-        alignment: Alignment.center,
-        child: RaisedButton(
-          child: Text('서브로 이동'),
-          onPressed: () {
-            Navigator.pushNamed(context, "/sub");
-          },
-          // onPressed: (){
-          //   Navigator.of(context).push(MaterialPageRoute(
-          //     builder: (context) {
-          //       return SubPage();
-          //     },
-          //   ));
-          // },
-        ),
+      body: Column(
+        children: [
+          Hero(
+            tag: "banner",
+            child: Image.asset("assets/card.jpg"),
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.blue,
+              alignment: Alignment.center,
+              child: RaisedButton(
+                child: Text('서브로 이동'),
+                onPressed: () {
+                  Navigator.pushNamed(context, "/sub");
+                },
+                // onPressed: (){
+                //   Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (context) {
+                //       return SubPage();
+                //     },
+                //   ));
+                // },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
