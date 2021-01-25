@@ -26,7 +26,7 @@ class SubPage extends StatelessWidget {
           ),
           Hero(                    //슈퍼맨이 홈 ,서브에도 있으면 이미지가 날라가는 이미지로 표현해줌.
             tag: "banner",
-            child: Image.asset("assets/dora.gif"),
+            child: Image.asset("assets/card.jpg"),
           ),
         ],
       ),
