@@ -1,14 +1,4 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_there/screens/feed_page.dart';
-import 'package:flutter_there/screens/home_page.dart';
-import 'package:flutter_there/screens/page1.dart';
-import 'package:flutter_there/screens/page2.dart';
-import 'package:flutter_there/screens/page3.dart';
-import 'package:flutter_there/screens/page4.dart';
-import 'package:flutter_there/screens/sub_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,64 +15,51 @@ class MyApp extends StatelessWidget {
       //       color: Colors.white,
       //     ),
       //     primaryColor: Colors.white),
-      home:HomePage(),
+      home: Sca(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  var _selectedIndex = 0;
+class Sca extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: IndexedStack(         //프래그먼트 - 변경될 화면들을 하나씩 넣어준다.
-          index:_selectedIndex,         //index로 화면전환이 가능하다.
-          children: [
-            Page1(),
-            Page2(),
-            Page3(),
-            Page4(),
-          ],
+        body: Text('BottomSheet'),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (context) => _buildContainer(context),
+            );
+          },
         ),
-        bottomNavigationBar: buildBottomNavigationBar(),
       ),
     );
   }
 
-  BottomNavigationBar buildBottomNavigationBar() {
-    return BottomNavigationBar(
-        //4개 이상의 바텀네비게이션 아이템을 만들려면 type을 픽스드로 지정해줘야함
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex, //현재 클릭되어있는 인덱스번호 (강조표시됨)
-        onTap: (value) {
-          setState(() {              //setState로 비동기처리 _selectedIndex를 초기화시켜준다.
-          this._selectedIndex = value;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "HOME",
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: "SCHOOL"
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              label: "BUSINESS"
-          ),
-          BottomNavigationBarItem(                      //4개이상 들어가지 않는다 그냥 바탐네비게이션바 아이템으론
-              icon: Icon(Icons.search),
-              label: "SEARCH"
-          ),
-        ],
-      );
+  Widget _buildContainer(BuildContext context) {
+    print("inset : ${MediaQuery.of(context).viewInsets.bottom}");      //inset : 키보드로 가려진 범위
+    print("padding : ${MediaQuery.of(context).viewPadding.bottom}");
+
+    //아래에서 위로 올라오는 쇼모달 버튼 시트가 표시됨
+    return BottomSheet(
+      onClosing: () {
+        print('닫아짐');
+      },
+      builder: (context) => Container(
+        padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context)
+                .viewInsets
+                .bottom),                  //부모 컨테이너에서 viewinset값을 밑에서 위로 밀어준다
+        color: Colors.yellow,
+        child: Container(                  //자식컨테이너 200을 부모viewinset값만큼 밀어줌 200은 고정
+          color: Colors.red,
+          height: 200.0,
+          child: TextField(),
+        ),
+      ),
+    );
   }
 }
